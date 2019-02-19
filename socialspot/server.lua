@@ -3,7 +3,7 @@ maxMessages = 15		-- Amount of messages to store server side
 autoupdatever = false	-- Automatically check and download updates
 ---------------------------------------
 
-_version = "0.1"
+_version = "0.9"
 
 maxMessagem = maxMessages - 1 -- Don't change this
 
