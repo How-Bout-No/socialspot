@@ -65,12 +65,10 @@ form {
 }
 
 .pmc .content.user {
-	border-left: 6px solid red;
 	padding: 5px;
 }
 
 .pmc .content.me {
-	border-right: 6px solid blue;
 	padding: 5px;
 	text-align: right;
 	float: right;

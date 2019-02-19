@@ -19,3 +19,4 @@ This is currently in ALPHA stages at the moment. Code is very messy and likely t
 * UI _may_ not scale well to resolutions other than 1920x1080
 * Connection issues may result in loss of sending messages
 * Pressing `Enter` while in a text input creates issues
+* When using ESX, character changes may not update in UI and cause slight issues

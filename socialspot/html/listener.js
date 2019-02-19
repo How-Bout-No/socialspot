@@ -15,11 +15,10 @@ $(function()
 				$('#wrap').hide();
 				return;
 			} else if (data.meta && data.meta == 'message') {
-				var colors = ['#00aedb', '#a200ff', '#f47835', '#d41243', '#8ec127'];
+				var color = $.parseJSON(data.color);
 				var article = document.createElement('article');
 				article.className = 'media';
-				var color = colors[data.name.length % 5];
-				article.innerHTML = '<figure class="media-left"><p class="image is-64x64"><img src="nui://socialspot/html/img/user_blank.png" style="background-color: '+color+';"></p></figure><div class="media-content"><div class="content"><p style="font-size: x-large;"><strong>' + data.name + '</strong> <small>@'+data.name.replace(/\s+/g, '_')+'</small><br>'+data.msg+'</p></div></div>';
+				article.innerHTML = '<figure class="media-left"><p class="image is-64x64"><img src="nui://socialspot/html/img/user_blank.png" style="background-color: rgb('+color+');"></p></figure><div class="media-content"><div class="content"><p style="font-size: x-large;"><strong>' + data.name + '</strong> <small>@'+data.handle.replace(/\s+/g, '_')+'</small><br>'+data.msg+'</p></div></div>';
 				contentarea.insertBefore(article, contentarea.childNodes[0]);
 				/*
 				var div = document.createElement('div');
@@ -28,14 +27,12 @@ $(function()
 				contentarea.insertBefore(div, contentarea.childNodes[0]);
 				*/
 			} else if (data.msglist) {
-				var colors = ['#00aedb', '#a200ff', '#f47835', '#d41243', '#8ec127'];
 				var msglist = JSON.parse(data.msglist);
 				var msgs = Object.keys(msglist)
 				for (i = 0; i < msgs.length; i++) {
 					var article = document.createElement('article');
 					article.className = 'media';
-					var color = colors[msglist[i]['name'].length % 5];
-					article.innerHTML = '<figure class="media-left"><p class="image is-64x64"><img src="nui://socialspot/html/img/user_blank.png" style="background-color: '+color+';"></p></figure><div class="media-content"><div class="content"><p><strong>' + msglist[i]['name'] + '</strong> <small>@'+msglist[i]['name'].replace(/\s+/g, '_')+'</small><br>'+msglist[i]['msg']+'</p></div></div>';
+					article.innerHTML = '<figure class="media-left"><p class="image is-64x64"><img src="nui://socialspot/html/img/user_blank.png" style="background-color: rgb('+msglist[i]['color']+');"></p></figure><div class="media-content"><div class="content"><p><strong>' + msglist[i]['name'] + '</strong> <small>@'+msglist[i]['handle'].replace(/\s+/g, '_')+'</small><br>'+msglist[i]['msg']+'</p></div></div>';
 					contentarea.appendChild(article);
 				}
 				/*
@@ -55,6 +52,7 @@ $(function()
 				});
 			}
 			var username = data.user;
+			var usercolor = $.parseJSON(data.color);
 			var curpm = '';
 			$('.users').on('click', 'li', function(){
 				if ($(this).text() != username) {
@@ -78,10 +76,9 @@ $(function()
 			$('#pmsubbut').click(function () {
 				if ($('#pmmsginput').val().length > 1) {
 					if ($(".pmc ul#"+curpm.replace(/\s/g, "--"))[0].lastChild.children[0].classList.contains('me')) {
-						console.log($(".pmc ul#"+curpm.replace(/\s/g, "--"))[0].lastChild.children[0].innerHTML);
 						$(".pmc ul#"+curpm.replace(/\s/g, "--"))[0].lastChild.children[0].innerHTML = $(".pmc ul#"+curpm.replace(/\s/g, "--"))[0].lastChild.children[0].innerHTML.replace('</p>', '')+'<br>'+$('#pmmsginput').val()+'</p>';
 					} else {
-						$(".pmc ul#"+curpm).append('<div class="media-content"><div class="content me"><p><strong>'+username+'</strong><br>'+$('#pmmsginput').val()+'</p></div></div>');
+						$(".pmc ul#"+curpm).append('<div class="media-content"><div class="content me" style="border-right: 6px solid rgb('+usercolor+');"><p><strong>'+username+'</strong><br>'+$('#pmmsginput').val()+'</p></div></div>');
 					}
 					$.post("http://socialspot/data-bus", JSON.stringify({
 						message: true, private: true, to: curpm.replace(/--/g, " "), msg: $('#pmmsginput').val()
@@ -92,6 +89,7 @@ $(function()
 			$('#wrap').show();
 			$('#msginput').focus();
 		} else {
+			var color = $.parseJSON(data.color);
 			if (!($(".pmusers").has("li:contains("+data.name+")").length)) {
 				$('<li/>').html('<a>'+data.name+'</a>').prop('id', data.name.replace(/\s/g, "--")).appendTo('.pmusers');
 				$(".pmc").append('<ul class="invis" id="'+data.name.replace(/\s/g, "--")+'"><div class="starttext"><p>Starting conversation with '+data.name+'</p></div></ul>');
@@ -99,7 +97,7 @@ $(function()
 			if ($(".pmc ul#"+data.name.replace(/\s/g, "--"))[0].lastChild.children[0].classList.contains('user')) {
 				$(".pmc ul#"+data.name.replace(/\s/g, "--"))[0].lastChild.children[0].innerHTML = $(".pmc ul#"+data.name.replace(/\s/g, "--"))[0].lastChild.children[0].innerHTML.replace('</p>', '')+'<br>'+data.msg+'</p>';
 			} else {
-				$(".pmc ul#"+data.name.replace(/\s/g, "--")).append('<div class="media-content"><div class="content user"><p><strong>'+data.name+'</strong><br>'+data.msg+'</p></div></div>');
+				$(".pmc ul#"+data.name.replace(/\s/g, "--")).append('<div class="media-content"><div class="content user" style="border-left: 6px solid rgb('+color+');"><p><strong>'+data.name+'</strong><br>'+data.msg+'</p></div></div>');
 			}
 		}
     }, false);

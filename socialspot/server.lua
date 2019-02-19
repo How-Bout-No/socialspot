@@ -1,37 +1,75 @@
--- Change these settings if you want --
-maxMessages = 15		-- Amount of messages to store server side
-autoupdatever = false	-- Automatically check and download updates
----------------------------------------
-
 _version = "0.9"
 
 maxMessagem = maxMessages - 1 -- Don't change this
 
 local mslist = {}
 
+function getIdentity(source)
+	local identifier = GetPlayerIdentifiers(source)[1]
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {['@identifier'] = identifier})
+	if result[1] ~= nil then
+		local identity = result[1]
+
+		return {
+			identifier = identity['identifier'],
+			firstname = identity['firstname'],
+			lastname = identity['lastname'],
+			dateofbirth = identity['dateofbirth'],
+			sex = identity['sex'],
+			height = identity['height']
+			
+		}
+	else
+		return nil
+	end
+end
+
+RegisterServerEvent("getMyUser")
+AddEventHandler("getMyUser", function()
+	local src = source
+	local name = getIdentity(source)
+	local fullname = name.firstname .. " " .. name.lastname
+	TriggerClientEvent("getMyUser", src, fullname)
+end)
 RegisterServerEvent("newMessage")
 AddEventHandler("newMessage", function(newmsg, msglist)
-	mslist = msglist
+	local name = ''
+	local fullname = ''
+	local uhandle = newmsg.handle
+	if useESXIdentity then
+		name = getIdentity(source)
+		fullname = name.firstname .. " " .. name.lastname
+		if not useSteamHandle then
+			uhandle = fullname
+			newmsg.handle = fullname
+		end
+	else
+		fullname = GetPlayerName(source)
+	end
 	if #mslist < maxMessages then
 		for count = #mslist, 1, -1 do
 			local count1 = count + 1
 			mslist[count1] = mslist[count]
+			
 		end
-		mslist[1] = {name = GetPlayerName(source), msg = newmsg.msg}
+		mslist[1] = {name = fullname, msg = newmsg.msg, color = newmsg.color, handle = uhandle}
 	else
 		for count = maxMessagem, 1, -1 do
 			local count1 = count + 1
 			mslist[count1] = mslist[count]
 		end
-		mslist[1] = {name = GetPlayerName(source), msg = newmsg.msg}
+		mslist[1] = {name = fullname, msg = newmsg.msg, color = newmsg.color, handle = uhandle}
 	end
-	newmsg.name = GetPlayerName(source)
+	newmsg.name = fullname
 	TriggerClientEvent("newMessage", -1, newmsg, mslist)
 end)
 
 RegisterServerEvent("newPMessage")
 AddEventHandler("newPMessage", function(newpmsg)
-	newpmsg.name = GetPlayerName(source)
+	local src = source
+	local name = getIdentity(source)
+	local fullname = name.firstname .. " " .. name.lastname
+	newpmsg.name = fullname
 	TriggerClientEvent("newPMessage", newpmsg.to, newpmsg)
 end)
 
@@ -40,10 +78,35 @@ AddEventHandler("getList", function()
 	TriggerClientEvent("getList", source, mslist)
 end)
 
-RegisterServerEvent("getName")
-AddEventHandler("getName", function()
-	TriggerClientEvent("getName", source, GetPlayerName(source))
+RegisterServerEvent("getUsers")
+AddEventHandler("getUsers", function()
+	local src = source
+	local players = {}
+	local ptable = GetPlayers()
+	local fullname = ''
+	if useESXIdentity then
+		local name = getIdentity(GetPlayerFromIndex(i))
+		fullname = name.firstname .. " " .. name.lastname
+	else
+		fullname = GetPlayerName(GetPlayerFromIndex(i))
+	end
+	for _, i in ipairs(ptable) do
+		table.insert(players, {GetPlayerFromIndex(i), fullname})
+	end
+	TriggerClientEvent("getUsers", src, players)
 end)
+
+function GetPlayers()
+    local players = {}
+
+    for i = 0, 31 do
+        if GetPlayerFromIndex(i) ~= nil then
+            table.insert(players, i)
+        end
+    end
+
+    return players
+end
 
 print('\n\27[104;39m> SocialSpot <\27[0;94m')
 if autoupdatever == true then

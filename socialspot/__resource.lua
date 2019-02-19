@@ -1,7 +1,14 @@
 ui_page 'html/index.html'
 
-client_script 'client.lua'
-server_script 'server.lua'
+client_scripts {
+	'config.lua',
+	'client.lua'
+}
+server_scripts {
+	'@mysql-async/lib/MySQL.lua',
+	'config.lua',
+	'server.lua'
+}
 
 files {
     'html/index.html',
@@ -9,6 +16,7 @@ files {
     'html/reset.css',
     'config.css',
     'config.js',
+    'config.lua',
     'html/listener.js',
     'html/img/user_blank.png'
 }
