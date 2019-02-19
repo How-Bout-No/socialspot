@@ -61,23 +61,38 @@ form {
 
 .pmc .content {
 	border-radius: 5px;
+	margin: 5px 0px;
 }
 
 .pmc .content.user {
 	border-left: 6px solid red;
-	padding-left: 5px;
+	padding: 5px;
 }
 
 .pmc .content.me {
 	border-right: 6px solid blue;
-	padding-right: 5px;
+	padding: 5px;
 	text-align: right;
 	float: right;
 	display: block;
 }
 
+.pmc .content.me p {
+	text-align: right;
+}
+
 .media {
 	padding: 0px 10px;
+}
+
+.starttext {
+	border: 1px solid black;
+	border-radius: 5px;
+	margin-bottom: 10px;
+}
+
+.starttext p {
+	text-align: center;
 }
 
 .invis {

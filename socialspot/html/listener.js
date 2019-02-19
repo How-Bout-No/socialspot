@@ -4,6 +4,26 @@ $(function()
     {
 		var data = event.data;
 		if (!(data.pmsg)) {
+			;!(function ($) {
+				$.fn.classes = function (callback) {
+					var classes = [];
+					$.each(this, function (i, v) {
+						var splitClassName = v.className.split(/\s+/);
+						for (var j = 0; j < splitClassName.length; j++) {
+							var className = splitClassName[j];
+							if (-1 === classes.indexOf(className)) {
+								classes.push(className);
+							}
+						}
+					});
+					if ('function' === typeof callback) {
+						for (var i in classes) {
+							callback(classes[i]);
+						}
+					}
+					return classes;
+				};
+			})(jQuery);
 			$.expr[':']['hasText'] = function(node, index, props){
 				return node.innerText == (props[3]);
 			}
@@ -60,13 +80,16 @@ $(function()
 				if ($(this).text() != username) {
 					if (!($(".pmusers").has("li:contains("+$(this).text()+")").length)) {
 						//$('.pmusers li').remove();
-						$('<li/>').html('<a>'+$(this).text()+'</a>').prop('id', $(this).text().replace(/\s/g, "-")).appendTo('.pmusers');
+						$('<li/>').html('<a>'+$(this).text()+'</a>').prop('id', $(this).text().replace(/\s/g, "--")).appendTo('.pmusers');
 						//$(".pmc").append('<ul class="invis" id="'+$(this).text()+'"><div class="media-content"><div class="content me"><p><strong>tester</strong><br>Testmessage</p></div></div></ul>');
-						$(".pmc").append('<ul class="invis" id="'+$(this).text().replace(/\s/g, "-")+'"></ul>');
+						$(".pmc").append('<ul class="invis" id="'+$(this).text().replace(/\s/g, "--")+'"><div class="starttext"><p>Starting conversation with '+$(this).text()+'</p></div></ul>');
+						$('#pmswitch').click();
+						$('.pmusers li#'+$(this).text().replace(/\s/g, "--")).click();
 					}
 				}
 			})
 			$('.pmusers').on('click', 'li', function(){
+				$('#helptext').addClass("invis");
 				$(".pmc ul").addClass("invis");
 				$(".pmc ul#"+$(this).text().replace(/\s/g, "--")).removeClass("invis");
 				curpm = $(this).text().replace(/\s/g, "--");
@@ -74,7 +97,12 @@ $(function()
 			})
 			$('#pmsubbut').click(function () {
 				if ($('#pmmsginput').val().length > 1) {
-					$(".pmc ul#"+curpm).append('<div class="media-content"><div class="content me"><p><strong>'+username+'</strong><br>'+$('#pmmsginput').val()+'</p></div></div>');
+					if ($(".pmc ul#"+curpm.replace(/\s/g, "--"))[0].lastChild.children[0].classList.contains('me')) {
+						console.log($(".pmc ul#"+curpm.replace(/\s/g, "--"))[0].lastChild.children[0].innerHTML);
+						$(".pmc ul#"+curpm.replace(/\s/g, "--"))[0].lastChild.children[0].innerHTML = $(".pmc ul#"+curpm.replace(/\s/g, "--"))[0].lastChild.children[0].innerHTML.replace('</p>', '')+'<br>'+$('#pmmsginput').val()+'</p>';
+					} else {
+						$(".pmc ul#"+curpm).append('<div class="media-content"><div class="content me"><p><strong>'+username+'</strong><br>'+$('#pmmsginput').val()+'</p></div></div>');
+					}
 					$.post("http://socialspot/data-bus", JSON.stringify({
 						message: true, private: true, to: curpm.replace(/--/g, " "), msg: $('#pmmsginput').val()
 					}))
@@ -85,10 +113,14 @@ $(function()
 			$('#msginput').focus();
 		} else {
 			if (!($(".pmusers").has("li:contains("+data.name+")").length)) {
-				$('<li/>').html('<a>'+data.name+'</a>').prop('id', data.name).appendTo('.pmusers');
-				$(".pmc").append('<ul class="invis" id="'+data.name.replace(/\s/g, "--")+'"></ul>');
+				$('<li/>').html('<a>'+data.name+'</a>').prop('id', data.name.replace(/\s/g, "--")).appendTo('.pmusers');
+				$(".pmc").append('<ul class="invis" id="'+data.name.replace(/\s/g, "--")+'"><div class="starttext"><p>Starting conversation with '+data.name+'</p></div></ul>');
 			}
-			$(".pmc ul#"+data.name.replace(/\s/g, "--")).append('<div class="media-content"><div class="content user"><p><strong>'+data.name+'</strong><br>'+data.msg+'</p></div></div>');
+			if ($(".pmc ul#"+data.name.replace(/\s/g, "--"))[0].lastChild.children[0].classList.contains('user')) {
+				$(".pmc ul#"+data.name.replace(/\s/g, "--"))[0].lastChild.children[0].innerHTML = $(".pmc ul#"+data.name.replace(/\s/g, "--"))[0].lastChild.children[0].innerHTML.replace('</p>', '')+'<br>'+data.msg+'</p>';
+			} else {
+				$(".pmc ul#"+data.name.replace(/\s/g, "--")).append('<div class="media-content"><div class="content user"><p><strong>'+data.name+'</strong><br>'+data.msg+'</p></div></div>');
+			}
 		}
     }, false);
 });

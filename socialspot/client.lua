@@ -72,13 +72,20 @@ RegisterNetEvent("newMessage")
 AddEventHandler("newMessage", function(newmsg, newlist)
 	msglist = newlist
 	if isEnabled then
+		local r, g, b = GetPlayerRgbColour(GetPlayerServerId())
+		print(GetPlayerPed(-1))
 		SendNUIMessage({ meta = "message", name = newmsg.name, msg = newmsg.msg })
 	end
 end)
 
 RegisterNetEvent("newPMessage")
 AddEventHandler("newPMessage", function(newpmsg)
-	print('New PM')
+	if not isEnabled then
+		SetNotificationTextEntry("STRING")
+		AddTextComponentString("New Message")
+		SetNotificationMessage("CHAR_DEFAULT", "CHAR_DEFAULT", true, 1, newpmsg.name, newpmsg.msg)
+		DrawNotification(false, true)
+	end
 	SendNUIMessage({ meta = "open", pmsg = true, name = newpmsg.name, msg = newpmsg.msg })
 end)
 
@@ -123,11 +130,11 @@ RegisterNUICallback(
 			SendNUIMessage({meta = "close"})
             isEnabled = false
 		elseif data.message then
-			local players = {}
 			if data.private then
 				local players = {}
 				local receiver = ''
 				local ptable = GetPlayers()
+				local r, g, b = 0, 0, 0
 				for _, i in ipairs(ptable) do
 					table.insert(players, {GetPlayerServerId(i), GetPlayerName(i)})
 				end

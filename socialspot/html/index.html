@@ -52,6 +52,7 @@
 			</div>
 			<div id="pmscreen" class="invis">
 				<div class="contentarea pmc">
+				<div id="helptext" style="text-align: center; border: 1px solid black; border-radius: 5px; margin: 100px 0px;">Select a user to chat with privately</div>
 				</div>
 				<form>
 				  <input class="input" type="text" id="pmmsginput" placeholder="Private Message" style="width: 60%;">
@@ -109,8 +110,6 @@
 			});
 			
 			$('#pmswitch').click(function () {
-				console.log('switch');
-				console.log($('#pmscreen').hasClass("invis"));
 				$('#mainscreen').toggleClass("invis");
 				$('#pmscreen').toggleClass("invis");
 				$('#mainusers').toggleClass("invis");
