@@ -31,28 +31,57 @@
 	</head>
 	<body>
 		<div style="display: none;" id="wrap">
-			<nav class="level">
+			<span id="pmswitch" class="icon is-large" style="top: 0x; right: 5%; position: absolute;" title="Switch to PMs"><i class="fas fa-mask"></i></span>
+			  <nav class="level">
 			  <!-- Left side -->
 				<div class="level-item has-text-centered" style="font-size: 30px;">
 				  <span class="icon is-large"><i class="fas fa-comments"></i></span> <p style="font-weight: bold;" id="title"></p>
 				</div>
 			  </nav>
-			
-			<div class="contentarea">
+			  
+			  <div class="columns is-gapless">
+			   <div class="column">
+			<div id="mainscreen">
+				<div class="contentarea mainc">
+				</div>
+				<div style="background-image: linear-gradient(transparent, white); height: 30%; width: 88.75%; bottom: 15%; left: 5.5%; position: absolute; display: none;"></div>
+				<form>
+				  <input class="input" type="text" id="msginput" placeholder="Message" style="width: 60%;">
+				  <a class="button is-info" id="subbut" style="width: 150px;">Submit</a>
+				</form>
 			</div>
-			<div style="background-image: linear-gradient(transparent, white); height: 30%; width: 88.75%; bottom: 15%; left: 5.5%; position: absolute; display: none;"></div>
-			<form>
-			  <input class="input" type="text" id="msginput" placeholder="Message" style="width: 80%;">
-			  <a class="button is-info" id="subbut" style="width: 150px;">Submit</a>
-			</form>
+			<div id="pmscreen" class="invis">
+				<div class="contentarea pmc">
+				</div>
+				<form>
+				  <input class="input" type="text" id="pmmsginput" placeholder="Private Message" style="width: 60%;">
+				  <a class="button is-info" id="pmsubbut" style="width: 150px;">Submit</a>
+				</form>
+			</div>
+			</div>
+			<div class="column is-one-fifth" style="height: 75%;">
+					<div id="mainusers" class="is-unselectable" style="height: 100%; padding: 0px 20px; overflow-y: scroll;">
+						<div class="level">
+							<h1 class="level-item has-text-centered">
+								Online Users
+							</h1>
+						</div>
+						<ul class="users"></ul>
+					</div>
+					<div id="pmusers" class="invis is-unselectable" style="height: 100%; padding: 0px 20px; overflow-y: scroll;">
+						<div class="level">
+							<h1 class="level-item has-text-centered">
+								Private Messages
+							</h1>
+						</div>
+						<ul class="pmusers"></ul>
+					</div>
+				</div>
+			</div>
 		</div>
 		<script src="nui://socialspot/config.js"></script>
 		<script>
 		$(document).ready(function () {
-			$('.dropdown').click(function () {
-				$(this).toggleClass("is-active");
-			});
-		
 			var $tabContainer = $("#wrap");
 			// Show or hide the page
 			function SHOW_HIDE(bool) {
@@ -73,20 +102,30 @@
 				}
 			});
 			
-			$(document).keypress(function(e){
-				if (e.which == 13){
+			$('#msginput').keypress(function(e){
+				if (e.key == 'Enter'){
 					$("#subbut").click();
 				}
+			});
+			
+			$('#pmswitch').click(function () {
+				console.log('switch');
+				console.log($('#pmscreen').hasClass("invis"));
+				$('#mainscreen').toggleClass("invis");
+				$('#pmscreen').toggleClass("invis");
+				$('#mainusers').toggleClass("invis");
+				$('#pmusers').toggleClass("invis");
 			});
 			
             $('#subbut').click(function () {
 				if ($('#msginput').val().length > 1) {
 					$.post("http://socialspot/data-bus", JSON.stringify({
-						message: true, msg: $('#msginput').val()
+						message: true, private: false, msg: $('#msginput').val()
 					}))
 					$('#msginput').val('');
 				}
             });
+			
 				
 			// Tell lua the nui loaded
             $.post("http://socialspot/data-bus", JSON.stringify({

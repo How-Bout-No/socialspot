@@ -76,17 +76,35 @@ AddEventHandler("newMessage", function(newmsg, newlist)
 	end
 end)
 
+RegisterNetEvent("newPMessage")
+AddEventHandler("newPMessage", function(newpmsg)
+	print('New PM')
+	SendNUIMessage({ meta = "open", pmsg = true, name = newpmsg.name, msg = newpmsg.msg })
+end)
+
 RegisterNetEvent("getList")
 AddEventHandler("getList", function(newlist)
 	msglist = newlist
+end)
+
+name = ''
+RegisterNetEvent("getName")
+AddEventHandler("getName", function(myname)
+	name = myname
 end)
 
 function REQUEST_NUI_FOCUS(bool)
     SetNuiFocus(bool, bool) -- focus, cursor
     if bool == true then
 		TriggerServerEvent("getList", msglist)
-		Citizen.Wait(100)
-        SendNUIMessage({meta = "open", msglist = toJSON(msglist)})
+		TriggerServerEvent("getName")
+		Citizen.Wait(250)
+		local players = {}
+		local ptable = GetPlayers()
+		for _, i in ipairs(ptable) do
+			table.insert(players, {GetPlayerServerId(i), GetPlayerName(i)})
+		end
+        SendNUIMessage({meta = "open", msglist = toJSON(msglist), userlist = toJSON(players), user = name})
     else
         SendNUIMessage({meta = "close"})
     end
@@ -105,7 +123,24 @@ RegisterNUICallback(
 			SendNUIMessage({meta = "close"})
             isEnabled = false
 		elseif data.message then
-			TriggerServerEvent("newMessage", {msg = data.msg}, msglist)
+			local players = {}
+			if data.private then
+				local players = {}
+				local receiver = ''
+				local ptable = GetPlayers()
+				for _, i in ipairs(ptable) do
+					table.insert(players, {GetPlayerServerId(i), GetPlayerName(i)})
+				end
+				for count = 1, #players do
+					if data.to == players[count][2] then
+						receiver = players[count][1]
+						break
+					end
+				end
+				TriggerServerEvent("newPMessage", {to = receiver, msg = data.msg})
+			else
+				TriggerServerEvent("newMessage", {msg = data.msg}, msglist)
+			end
         end
     end
 )
@@ -151,4 +186,16 @@ Citizen.CreateThread(
         end
     end
 )
+
+function GetPlayers()
+    local players = {}
+
+    for i = 0, 31 do
+        if NetworkIsPlayerActive(i) then
+            table.insert(players, i)
+        end
+    end
+
+    return players
+end
 
