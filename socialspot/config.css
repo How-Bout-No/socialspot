@@ -1,10 +1,9 @@
-/* If you want to change the keypress on the scoreboard opening, go to 'client.lua' */
 :root /* Edit this for config */ {
 	--main-bg-color: rgb(255, 255, 255);
 	--main-heading-bg-color: rgba(0, 0, 0, 0.568);
-	--main-border: 3px solid rgba(0, 0, 0, 0.568); /* keep the solid but you can change the 'black' and '2px' */
-	--main-border-radius: 6px; /* The 'roundness' of the border of the playerlist */
-	--main-font: 'San Francisco', sans-serif; /* If you are using a font api, pls import it. in the index or here */
+	--main-border: 3px solid rgba(0, 0, 0, 0.568);
+	--main-border-radius: 6px;
+	--main-font: 'San Francisco', sans-serif;
 	--main-text-color: rgba(0, 0, 0, 0.9);
 	--main-font-size: 39px;
 	--main-window-width: 90%;
