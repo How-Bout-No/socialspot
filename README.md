@@ -7,7 +7,7 @@ A social media-like plugin for FiveM.
 2. Add `start socialspot` to your server.cfg.
 
 ## __Planned Features__
-* ~Notification system~ Implemented in v0.1-alpha2
+* ~Notification system~ Implemented in v1.0-alpha2
 * Changes to overall UI
 * Patch theoretical bugs
 * Work out impurities in code
