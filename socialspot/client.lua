@@ -46,11 +46,16 @@ function REQUEST_NUI_FOCUS(bool)
 			TriggerServerEvent("getMyUser")
 		end
 		TriggerServerEvent("getList", msglist)
-		TriggerServerEvent("getUsers")
+		local players = {}
+		local ptable = GetPlayers()
+		for _, i in ipairs(ptable) do
+			table.insert(players, {GetPlayerServerId(i), GetPlayerName(i)})
+		end
+		TriggerServerEvent("getUsers", players)
 		Citizen.Wait(250)
 		local r, g, b = GetPlayerRgbColour(PlayerId())
 		local players = ulist
-        SendNUIMessage({meta = "open", msglist = toJSON(msglist), userlist = toJSON(players), user = uname, color = toJSON({r, g, b})})
+        SendNUIMessage({meta = "open", msglist = toJSON(msglist), userlist = toJSON(ulist), user = uname, color = toJSON({r, g, b})})
     else
         SendNUIMessage({meta = "close"})
     end

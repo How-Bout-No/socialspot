@@ -79,34 +79,22 @@ AddEventHandler("getList", function()
 end)
 
 RegisterServerEvent("getUsers")
-AddEventHandler("getUsers", function()
+AddEventHandler("getUsers", function(users)
 	local src = source
 	local players = {}
-	local ptable = GetPlayers()
+	local ptable = users
 	local fullname = ''
-	if useESXIdentity then
-		local name = getIdentity(GetPlayerFromIndex(i))
-		fullname = name.firstname .. " " .. name.lastname
-	else
-		fullname = GetPlayerName(GetPlayerFromIndex(i))
-	end
 	for _, i in ipairs(ptable) do
-		table.insert(players, {GetPlayerFromIndex(i), fullname})
+		if useESXIdentity then
+			local name = getIdentity(i[1])
+			fullname = name.firstname .. " " .. name.lastname
+		else
+			fullname = GetPlayerName(i[1])
+		end
+		table.insert(players, {i[1], fullname})
 	end
 	TriggerClientEvent("getUsers", src, players)
 end)
-
-function GetPlayers()
-    local players = {}
-
-    for i = 0, 31 do
-        if GetPlayerFromIndex(i) ~= nil then
-            table.insert(players, i)
-        end
-    end
-
-    return players
-end
 
 print('\n\27[104;39m> SocialSpot <\27[0;94m')
 if autoupdatever == true then
