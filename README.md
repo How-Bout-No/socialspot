@@ -4,7 +4,10 @@ A social media-like plugin for FiveM.
 ## __Installation__
 1. Download latest release [Here](https://github.com/How-Bout-No/socialspot/releases/latest).
 2. Extract the `socialspot` folder into your `resources` folder.
-2. Add `start socialspot` to your server.cfg.
+3. Change `config.lua` to your needs.
+4. Add `start socialspot` to your server.cfg.
+5. ???
+6. Profit.
 
 ## __Planned Features__
 * ~Notification system~ Implemented in v1.0-alpha2
