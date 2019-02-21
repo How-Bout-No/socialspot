@@ -67,8 +67,12 @@ end)
 RegisterServerEvent("newPMessage")
 AddEventHandler("newPMessage", function(newpmsg)
 	local src = source
-	local name = getIdentity(source)
-	local fullname = name.firstname .. " " .. name.lastname
+	if useESXIdentity then
+		name = getIdentity(src)
+		fullname = name.firstname .. " " .. name.lastname
+	else
+		fullname = GetPlayerName(src)
+	end
 	newpmsg.name = fullname
 	TriggerClientEvent("newPMessage", newpmsg.to, newpmsg)
 end)
