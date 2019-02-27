@@ -1,8 +1,5 @@
-/* Not all variables are currently used
-Unused ones will be eventually removed */
 :root /* Edit this for config */ {
 	--main-bg-color: rgb(255, 255, 255);
-	--main-heading-bg-color: rgba(0, 0, 0, 0.568);
 	--main-border: 3px solid rgba(0, 0, 0, 0.568);
 	--main-border-radius: 6px;
 	--main-font: 'San Francisco', sans-serif;
@@ -11,28 +8,7 @@ Unused ones will be eventually removed */
 	--main-window-width: 90%;
 	--main-window-height: 87%;
 	--main-text-align: left;
-	--main-heading-height: 23px;
 	--main-padding: 8px;
 	--main-font-weight: 500;
   }
 /* Config END */
-
-
-
-/* Default Values Just in case you mess something up */
-/*  
-	--main-bg-color: rgba(12, 44, 95, 0.548);
-	--main-heading-bg-color: rgba(0, 0, 0, 0.568);
-	--main-border: 3px solid rgba(0, 0, 0, 0.363); 
-	--main-border-radius: 6px; 
-	--main-font: 'Roboto Condensed', sans-serif; 
-	--main-text-color: rgba(255, 255, 255, 0.9);
-	--main-font-size: 39px;
-	--main-window-width: 370px;
-	--main-window-height: 185px;
-	--main-text-align: left;
-	--main-heading-height: 23px;
-	--main-padding: 7px;
-	--main-font-weight: 500; 
-
-*/

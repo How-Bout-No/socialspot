@@ -18,14 +18,8 @@ $(function()
 				var color = $.parseJSON(data.color);
 				var article = document.createElement('article');
 				article.className = 'media';
-				article.innerHTML = '<figure class="media-left"><p class="image is-96x96"><img src="nui://socialspot/html/img/user_blank.png" style="background-color: rgb('+color+');"></p></figure><div class="media-content"><div class="content"><p style="font-size: x-large;"><strong>' + data.name + '</strong> <small>@'+data.handle.replace(/\s+/g, '_')+'</small><br>'+data.msg+'</p></div></div>';
+				article.innerHTML = '<figure class="media-left"><p class="image is-96x96"><img src="nui://socialspot/html/img/user_blank.png" style="background-color: rgb('+color+');"></p></figure><div class="media-content"><div class="content"><p><strong>' + data.name + '</strong> <small>@'+data.handle.replace(/\s+/g, '_')+'</small><br>'+data.msg+'</p></div></div>';
 				contentarea.insertBefore(article, contentarea.childNodes[0]);
-				/*
-				var div = document.createElement('div');
-				div.className = 'content';
-				div.innerHTML = '<p><b>' + data.name + '</b><br><p id="text">' + data.msg + '</p></p>';
-				contentarea.insertBefore(div, contentarea.childNodes[0]);
-				*/
 			} else if (data.msglist) {
 				var msglist = JSON.parse(data.msglist);
 				var msgs = Object.keys(msglist)
@@ -35,12 +29,6 @@ $(function()
 					article.innerHTML = '<figure class="media-left"><p class="image is-96x96"><img src="nui://socialspot/html/img/user_blank.png" style="background-color: rgb('+msglist[i]['color']+');"></p></figure><div class="media-content"><div class="content"><p><strong>' + msglist[i]['name'] + '</strong> <small>@'+msglist[i]['handle'].replace(/\s+/g, '_')+'</small><br>'+msglist[i]['msg']+'</p></div></div>';
 					contentarea.appendChild(article);
 				}
-				/*
-				var div = document.createElement('div');
-				div.className = 'content';
-				div.innerHTML = '<p><b>' + data.name + '</b><br><p id="text">' + data.msg + '</p></p>';
-				contentarea.insertBefore(div, contentarea.childNodes[0]);
-				*/
 			}
 			if (data.userlist) {
 				var userlist = $.parseJSON(data.userlist);
@@ -57,9 +45,7 @@ $(function()
 			$('.users').on('click', 'li', function(){
 				if ($(this).text() != username) {
 					if (!($(".pmusers").has("li:contains("+$(this).text()+")").length)) {
-						//$('.pmusers li').remove();
 						$('<li/>').html('<a>'+$(this).text()+'</a>').prop('id', $(this).text().replace(/\s/g, "--")).appendTo('.pmusers');
-						//$(".pmc").append('<ul class="invis" id="'+$(this).text()+'"><div class="media-content"><div class="content me"><p><strong>tester</strong><br>Testmessage</p></div></div></ul>');
 						$(".pmc").append('<ul class="invis" id="'+$(this).text().replace(/\s/g, "--")+'"><div class="starttext"><p>Starting conversation with '+$(this).text()+'</p></div></ul>');
 						$('#pmswitch').click();
 						$('.pmusers li#'+$(this).text().replace(/\s/g, "--")).click();
