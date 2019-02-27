@@ -18,7 +18,7 @@ $(function()
 				var color = $.parseJSON(data.color);
 				var article = document.createElement('article');
 				article.className = 'media';
-				article.innerHTML = '<figure class="media-left"><p class="image is-96x96"><img src="nui://socialspot/html/img/user_blank.png" style="background-color: rgb('+color+');"></p></figure><div class="media-content"><div class="content"><p><strong>' + data.name + '</strong> <small>@'+data.handle.replace(/\s+/g, '_')+'</small><br>'+data.msg+'</p></div></div>';
+				article.innerHTML = '<figure class="media-left"><p class="image is-96x96"><img src="nui://socialspot/html/img/user_blank.png" style="background-color: rgb('+color+'); border-radius: 10px;"></p></figure><div class="media-content"><div class="content"><p><strong>' + data.name + '</strong> <small>@'+data.handle.replace(/\s+/g, '_')+'</small><br>'+data.msg+'</p></div></div>';
 				contentarea.insertBefore(article, contentarea.childNodes[0]);
 			} else if (data.msglist) {
 				var msglist = JSON.parse(data.msglist);
@@ -26,7 +26,7 @@ $(function()
 				for (i = 0; i < msgs.length; i++) {
 					var article = document.createElement('article');
 					article.className = 'media';
-					article.innerHTML = '<figure class="media-left"><p class="image is-96x96"><img src="nui://socialspot/html/img/user_blank.png" style="background-color: rgb('+msglist[i]['color']+');"></p></figure><div class="media-content"><div class="content"><p><strong>' + msglist[i]['name'] + '</strong> <small>@'+msglist[i]['handle'].replace(/\s+/g, '_')+'</small><br>'+msglist[i]['msg']+'</p></div></div>';
+					article.innerHTML = '<figure class="media-left"><p class="image is-96x96"><img src="nui://socialspot/html/img/user_blank.png" style="background-color: rgb('+msglist[i]['color']+'); border-radius: 10px;"></p></figure><div class="media-content"><div class="content"><p><strong>' + msglist[i]['name'] + '</strong> <small>@'+msglist[i]['handle'].replace(/\s+/g, '_')+'</small><br>'+msglist[i]['msg']+'</p></div></div>';
 					contentarea.appendChild(article);
 				}
 			}
