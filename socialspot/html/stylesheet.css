@@ -68,6 +68,10 @@ form {
 	padding: 5px;
 }
 
+.pmc .content.user p {
+	font-size: xx-large;
+}
+
 .pmc .content.me {
 	padding: 5px;
 	text-align: right;
@@ -76,7 +80,12 @@ form {
 }
 
 .pmc .content.me p {
+	font-size: xx-large;
 	text-align: right;
+}
+
+.starttext p {
+	font-size: x-large;
 }
 
 .media {
@@ -95,4 +104,11 @@ form {
 
 .invis {
 	display: none;
+}
+
+.isulist {
+	font-size: x-large;
+	height: 100%;
+	padding: 0px 20px;
+	overflow-y: scroll;
 }
