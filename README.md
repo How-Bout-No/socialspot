@@ -11,7 +11,6 @@ A social media-like plugin for FiveM.
 6. Profit.
 
 ## __Planned Features__
-* ~Notification system~ Implemented in v1.0-alpha2
 * Changes to overall UI
 * Patch theoretical bugs
 * Work out impurities in code
