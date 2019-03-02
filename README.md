@@ -11,7 +11,6 @@ A social media-like plugin for FiveM.
 6. Profit.
 
 ## __Planned Features__
-* ~Notification system~ Implemented in v1.0-alpha2
 * Changes to overall UI
 * Patch theoretical bugs
 * Work out impurities in code
@@ -21,7 +20,6 @@ This is currently in ALPHA stages at the moment. Code is very messy and likely t
 
 ## __Known Bugs__
 * UI _may_ not scale well to resolutions other than 1920x1080
-* Connection issues may result in loss of sending messages
 * Pressing `Enter` while in a text input creates issues
 * When using ESX, character changes may not update in UI and cause slight issues
-* In some cases, v1.0-alpha3 and up have issues with server starting (Unable to replicate, needs more thorough testing)
+* Sometimes the player name does not show up when private messaging until the plugin is restarted (looking into)
