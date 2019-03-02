@@ -1,7 +1,7 @@
 -- Config Settings --
 activationKey = 20		-- Default: Z	https://docs.fivem.net/game-references/controls/
-maxMessages = 15		-- Amount of messages to store server side
-autoupdatever = false	-- Automatically check for _and_ download updates (leave false for now)
+maxMessages = 15		-- Amount of messages to store server side (Recommended to keep < 20)
+--autoupdatever = false	-- Automatically check for _and_ download updates (leave false for now)
 ---------------------
 
 -- Settings below only apply if using ESX --

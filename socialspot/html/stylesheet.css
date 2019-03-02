@@ -32,9 +32,6 @@ html {
 #title {
 	padding-left: 5px;
 	padding-top: 10px;
-	text-align: var(--ext-title-font-align) !important;
-	font-size: var(--ext-title-font-size);
-	color: var(--ext-title-font-color);
 	font-family: var(--main-font);
 }
 
@@ -60,7 +57,7 @@ form {
 }
 
 .pmc .content {
-	border-radius: 5px;
+	border-radius: var(--icon-roundness);
 	margin: 5px 0px;
 }
 

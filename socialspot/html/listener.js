@@ -39,9 +39,7 @@ $(function()
 					.appendTo('.users');
 				});
 			}
-			console.log(Object.keys(data));
 			var username = data.user;
-			console.log(username);
 			var usercolor = $.parseJSON(data.color);
 			var curpm = '';
 			$('.users').on('click', 'li', function(){

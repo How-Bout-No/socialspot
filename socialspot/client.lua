@@ -30,6 +30,7 @@ end)
 
 RegisterNetEvent("getList")
 AddEventHandler("getList", function(newlist)
+	--print(isEnabled)
 	msglist = newlist
 end)
 
